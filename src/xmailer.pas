@@ -191,7 +191,7 @@ begin
   try
     ExtractStrings([' '], [], PChar(AParams), S);
     with TSendMail.Create do
-    begin
+    try
       FOnProgress := AProgress;
       // Smtp properties
       Smtp.Host := S.Values['host'];
@@ -220,6 +220,8 @@ begin
         'html': ContentType := ctTextHTML;
       end;
       Send;
+    finally
+      Free;
     end;
   finally
     S.Free;
